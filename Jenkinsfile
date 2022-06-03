@@ -7,6 +7,9 @@ pipeline {
     triggers {
          cron('0 * * * *')
     }
+    parameters {
+        choice(name: 'GOAL', choices: ['compile', 'package', 'clean package']
+    }
     stages {
         stage('Source code') {
             steps {
@@ -16,7 +19,7 @@ pipeline {
         }
         stage('Build') {
             steps {
-                sh script: 'mvn clean package'
+                sh script: "mvn ${params.GOAL}"
             }
         }
         stage('Junit result') {
