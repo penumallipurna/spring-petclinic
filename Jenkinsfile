@@ -28,13 +28,13 @@ pipeline {
     post {
         success {
             echo 'success'
-            mail bcc: '', body: 'build success', cc: '', from: '', replyTo: '', 
-            subject: 'build succeeded', to: 'purna.penumalli@gmail.com'
+            mail bcc: '', body: "BUILD URL: ${BUILD_URL} TEST RESULT ${RUN_TESTS_DISPLAY_URL}", cc: '', from: '', replyTo: '', 
+            subject: "${JOB_BASE_NAME} BUILD ${BUILD_ID} succeeded", to: 'purna.penumalli@gmail.com'
         }
         unsuccessful {
             echo 'failure'
-            mail bcc: '', body: 'build success', cc: '', from: '', replyTo: '',
-             subject: 'build succeeded', to: 'purna.penumalli@gmail.com'
+            mail bcc: '', body: "BUILD URL: ${BUILD_URL} TEST RESULT ${RUN_TESTS_DISPLAY_URL}", cc: '', from: '', replyTo: '',
+             subject: "${JOB_BASE_NAME} BUILD ${BUILD_ID} failed", to: 'purna.penumalli@gmail.com'
         }
     }
         
