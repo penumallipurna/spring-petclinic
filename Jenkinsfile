@@ -19,7 +19,7 @@ pipeline {
                 sh script: 'mvn clean package'
             }
         }
-        script('Junit') {
+        stage('Junit result') {
             steps {
                 junit testResults: 'target/surefire-reports/*.xml'
             }
