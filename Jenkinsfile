@@ -20,11 +20,18 @@ pipeline {
         stage('Build') {
             steps {
                 sh script: "mvn ${params.GOAL}"
+                stash name: 'spc-build', includes: 'target/*.jar'
             }
         }
         stage('Junit result') {
             steps {
                 junit testResults: 'target/surefire-reports/*.xml'
+            }
+        }
+        stage('deployment') {
+            agent { label 'jdk8' }
+            steps {
+                unstash name: 'spc-build'
             }
         }
     }
