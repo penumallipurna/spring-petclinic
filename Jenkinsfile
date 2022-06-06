@@ -20,7 +20,7 @@ pipeline {
         stage('Build and sonarqube-analysis') {
             steps {
                 withSonarQubeEnv('SONAR_LATEST') {
-                    sh script: "mvn ${params.GOAL}"
+                    sh script: "mvn ${params.GOAL} sonar:sonar"
                 }
                 
                 //stash name: 'spc-build', includes: 'target/*.jar'
