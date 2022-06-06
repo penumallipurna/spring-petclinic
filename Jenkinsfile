@@ -17,10 +17,13 @@ pipeline {
                 branch: 'main'
             }
         }
-        stage('Build') {
+        stage('Build and sonarqube-analysis') {
             steps {
-                sh script: "mvn ${params.GOAL}"
-                stash name: 'spc-build', includes: 'target/*.jar'
+                withSonarQubeEnv('SONAR_LATEST') {
+                    sh script: "mvn ${params.GOAL}"
+                }
+                
+                //stash name: 'spc-build', includes: 'target/*.jar'
             }
         }
         stage('Junit result') {
@@ -28,12 +31,7 @@ pipeline {
                 junit testResults: 'target/surefire-reports/*.xml'
             }
         }
-        stage('deployment') {
-            agent { label 'jdk8' }
-            steps {
-                unstash name: 'spc-build'
-            }
-        }
+        
     }
     post {
         success {
